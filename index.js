@@ -13,6 +13,7 @@ class StickySwiper {
 
     let stickyPoints = config.stickyPoints || [];
     let contactRadius = config.contactRadius || 10;
+    let allowRevisiting = config.allowRevisiting || false;
 
     let getDistance = function(p1, p2) {
       return ((p1.x - p2.x)**2 + (p1.y - p2.y)**2)**0.5;
@@ -43,7 +44,9 @@ class StickySwiper {
       let closestPoint = getClosestPoint(point, contactPoints);
       let lastTouchedPoint = touchedPoints[touchedPoints.length-1];
       if (closestPoint && closestPoint !== lastTouchedPoint) {
-        touchedPoints.push(closestPoint);
+        if (allowRevisiting || touchedPoints.indexOf(closestPoint) === -1) {
+          touchedPoints.push(closestPoint);
+        }
       }
     };
 
