@@ -103,7 +103,7 @@ function drawPoint(canvas, path, touchedPoints) {
   let lastPoint = path[path.length-1];
   let context = canvas.getContext("2d");
   context.beginPath();
-  context.lineWidth = 2;
+  context.lineWidth = 1;
   context.moveTo(path[0].x, path[0].y);
   path.forEach(function(p) {
     context.lineTo(p.x, p.y);
@@ -120,11 +120,18 @@ function clearCanvas(canvas) {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 }
 
+let stickyPoints = [];
+for (var x = 10; x >= 0; x--) {
+  for (var y = 10; y >= 0; y--) {
+    stickyPoints.push({x: x*20, y: y*20});
+  }
+}
+
 const config = {
   onDown: drawPoint,
   onUp: clearCanvas,
   onMove: drawPoint,
-  stickyPoints: [{x: 10, y: 10}, {x: 90, y: 10}, {x: 90, y: 90}, {x: 10, y: 90}]
+  stickyPoints: stickyPoints
 }
 
 new StickySwiper(myCanvas, config);
